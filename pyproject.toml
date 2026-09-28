@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling==1.27.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "looot"
+version = "0.1.0"
+description = "Python client for the looot API: search, inspect and run data provider operations with one token."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+dependencies = ["httpx==0.28.1"]
+keywords = ["looot", "api", "sdk", "enrichment", "email verification", "seo", "scraping"]
+classifiers = [
+  "Private :: Do Not Upload",
+  "Programming Language :: Python :: 3",
+  "Typing :: Typed",
+]
+
+[project.optional-dependencies]
+dev = ["pytest==9.1.1"]
+
+[project.urls]
+Homepage = "https://looot.ai"
+Documentation = "https://looot.ai/docs"
+API = "https://api.looot.ai/openapi.json"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/looot"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+markers = ["live: calls looot's free public routes over the network"]
+addopts = "-m 'not live'"
