@@ -8,11 +8,11 @@ version = "0.1.0"
 description = "Python client for the looot API: search, inspect and run data provider operations with one token."
 readme = "README.md"
 requires-python = ">=3.9"
-license = { file = "LICENSE" }
+license = { text = "MIT" }
 dependencies = ["httpx==0.28.1"]
 keywords = ["looot", "api", "sdk", "enrichment", "email verification", "seo", "scraping"]
 classifiers = [
-  "Private :: Do Not Upload",
+  "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
   "Typing :: Typed",
 ]
@@ -24,6 +24,7 @@ dev = ["pytest==9.1.1"]
 Homepage = "https://looot.ai"
 Documentation = "https://looot.ai/docs"
 API = "https://api.looot.ai/openapi.json"
+Source = "https://github.com/loootai/looot-python"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/looot"]

@@ -8,13 +8,13 @@ run contract.
 Written by hand from the public OpenAPI at https://api.looot.ai/openapi.json. Methods return
 the decoded JSON as plain dicts, so new gateway fields show up without an SDK release.
 
-> Status: private and unpublished. `pyproject.toml` carries the `Private :: Do Not Upload`
-> classifier, so PyPI refuses an upload until someone removes it on purpose.
+> Status: public, MIT. The PyPI name `looot` is free; the first release is not uploaded yet,
+> so install from GitHub until then.
 
 ## Install
 
 ```bash
-pip install /path/to/looot-python    # local, until a release exists
+pip install git+https://github.com/loootai/looot-python    # until the PyPI release
 ```
 
 Python 3.9+. One runtime dependency: `httpx==0.28.1`.
@@ -103,4 +103,4 @@ git config core.hooksPath .githooks
 
 ## License
 
-Proprietary, all rights reserved. See [LICENSE](LICENSE).
+MIT. See [LICENSE](LICENSE).
