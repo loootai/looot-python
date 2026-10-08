@@ -1,4 +1,8 @@
+<p align="center"><img src="assets/hero.png" alt="looot-python: Python client for the looot API" width="100%"></p>
+
 # looot for Python
+
+[![License](https://img.shields.io/github/license/loootai/looot-python)](LICENSE) [![Docs](https://img.shields.io/badge/docs-docs.looot.ai-12A06A)](https://docs.looot.ai)
 
 A small client for the [looot](https://looot.ai) REST API, built on `httpx`. looot is one
 gateway to about 2,500 data provider operations (email find and verify, company enrichment,
