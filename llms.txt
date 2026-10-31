@@ -1,17 +1,23 @@
 # looot-python
 
-> looot Python SDK
+> The official Python SDK for looot: `Looot` (sync) and `AsyncLooot` (asyncio).
 
-looot is one key and one prepaid balance for 2,500+ data API endpoints from 90+ providers. The agent searches the catalog, sees the price before it runs, and pays per call.
+looot puts 4,200+ tools across 300+ providers behind one key and one prepaid balance. The price shows before every call, and a failed call costs nothing.
 
 ## Install
 
+- Python: `pip install looot` (until the first PyPI release: `pip install git+https://github.com/loootai/looot-python`)
 - Remote MCP server: `claude mcp add --transport http looot https://api.looot.ai/mcp`
-- This repo: pip install git+https://github.com/loootai/looot-python
+
+## Use
+
+- `Looot().run_job("people.email.find", {"name": "Jane Doe", "domain": "example.com"}, fallback=True, wait=30)`
+- Check `Looot().balance()["available"]` before a paid run.
+- Read `status`, `outcome` and `error` on the returned run. A failed run is returned, not raised.
 
 ## Links
 
 - Docs: https://docs.looot.ai
-- Pricing: prepaid balance (top up from $5), charged per call, failed calls are free
+- API reference: https://docs.looot.ai/reference
+- Agent guide: https://looot.ai/skill.md
 - Recipes: https://github.com/loootai/awesome-looot-use-cases
-- GTM tools list: https://github.com/loootai/awesome-gtm

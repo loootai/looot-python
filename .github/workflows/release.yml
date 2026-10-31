@@ -1,0 +1,49 @@
+# Publishes to PyPI when a tag like v0.2.0 is pushed. Uses PyPI trusted publishing (OIDC):
+# no API token is stored anywhere. Setup steps: PUBLISH.md.
+name: release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-dev.lock
+      - run: pip install --no-deps -e .
+      - run: bash scripts/leak-scan.sh .
+      - run: python scripts/gen_async.py --check
+      - run: pytest
+      - name: Tag matches the package version
+        run: |
+          version=$(python -c "import looot; print(looot.__version__)")
+          test "v${version}" = "${GITHUB_REF_NAME}" || { echo "tag ${GITHUB_REF_NAME} != v${version}"; exit 1; }
+      - run: pip install build==1.6.1 pyproject_hooks==1.3.3
+      - run: python -m build
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/looot/
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3

@@ -34,8 +34,7 @@ def test_catalog_overview_topic_email(client):
 def test_public_catalog_by_capability(client):
     page = client.public_catalog(capability="people_email_verify", limit=5)
     assert page["items"]
-    for item in page["items"]:
-        assert any(p["name"] == "email" and p["required"] for p in item["parameters"])
+    assert all("people_email_verify" in item["capabilities"] for item in page["items"])
 
 
 def test_public_catalog_item(client):
@@ -46,6 +45,20 @@ def test_token_route_without_token_is_refused():
     with Looot(token="") as anon:
         with pytest.raises(LoootError):
             anon.search("verify an email")
+
+
+def test_iter_public_catalog_reads_two_pages(client):
+    items = []
+    try:
+        for item in client.iter_public_catalog(capability="people_email_verify", limit=2):
+            items.append(item)
+            if len(items) == 3:
+                break
+    except LoootError as e:
+        if e.code != "catalog_cursor_stale":
+            raise
+        pytest.skip("the catalog changed between pages (409 catalog_cursor_stale)")
+    assert len({i["catalogItemId"] for i in items}) == len(items)
 
 
 @pytest.mark.skipif(not os.environ.get("LOOOT_TOKEN"), reason="LOOOT_TOKEN not set")

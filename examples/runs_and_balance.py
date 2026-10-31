@@ -9,7 +9,8 @@ from looot import Looot
 
 with Looot() as looot:
     b = looot.balance()
-    print(f"available ${b['available']}, reserved ${b['reserved']}, minimum top-up ${b.get('topUpLink', {}).get('minimumUsd')}")
+    link = b.get("topUpLink") or {}
+    print(f"available ${b['available']}, reserved ${b['reserved']}, top up at {link.get('checkoutUrl') or link.get('dashboardUrl')}")
     runs = looot.list_runs(limit=5).get("runs") or []
     for r in runs:
         print(r["runId"], r["status"], r.get("endpointId"), r.get("actualCost"))
