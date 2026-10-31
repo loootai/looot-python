@@ -33,12 +33,18 @@ with Looot() as looot:                                  # reads LOOOT_TOKEN
     balance = looot.balance()
     if balance["available"] < 0.10:
         raise SystemExit(f"Top up first: {balance['topUpLink']['dashboardUrl']}")
-    run = looot.run_job("people.email.find", {"name": "Jane Doe", "domain": "example.com"},
-                        fallback=True, wait=30)
+    run = looot.run_job(
+        "people.email.find",
+        {"first_name": "Jane", "last_name": "Doe", "domain": "example.com"},
+        fallback=True,
+        wait=30,
+    )
     print(run["status"], run.get("outcome"), run.get("result"), run.get("actualCost"))
 ```
 
-`fallback=True` lets looot try the next provider when one misses. A returned run is not
+The job takes `first_name`, `last_name` and `domain`, or a `linkedin_url`. The `search` answer's
+`jobInputs` lists the input names each job accepts. `fallback=True` lets looot try the next
+provider when one misses. A returned run is not
 success on its own: read `status`, `outcome` and `error`. A miss is a normal answer.
 
 Browsing the catalog is free and needs no token:
@@ -173,7 +179,7 @@ python examples/overview.py                                    # free, no token
 LOOOT_TOKEN=... python examples/search_and_inspect.py          # free, token
 LOOOT_TOKEN=... python examples/runs_and_balance.py            # free, token
 LOOOT_TOKEN=... python examples/async_search.py                # free, token
-LOOOT_TOKEN=... python examples/run_job_with_fallback.py "Jane Doe" example.com   # paid
+LOOOT_TOKEN=... python examples/run_job_with_fallback.py Jane Doe example.com   # paid
 ```
 
 ## Develop

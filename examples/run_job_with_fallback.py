@@ -1,15 +1,15 @@
 """PAID: find a work email through the job, with fallback, after checking the balance.
 
 Needs LOOOT_TOKEN (runs.execute, usage.read) and a topped-up balance. Costs a few cents at most.
-Run: LOOOT_TOKEN=... python examples/run_job_with_fallback.py "Jane Doe" example.com
+Run: LOOOT_TOKEN=... python examples/run_job_with_fallback.py Jane Doe example.com
 """
 
 import sys
 
 from looot import Looot, LoootError
 
-if len(sys.argv) < 3:
-    sys.exit('usage: python examples/run_job_with_fallback.py "<full name>" <domain>')
+if len(sys.argv) < 4:
+    sys.exit("usage: python examples/run_job_with_fallback.py <first name> <last name> <domain>")
 
 with Looot(agent="looot-python example") as looot:
     balance = looot.balance()
@@ -19,7 +19,7 @@ with Looot(agent="looot-python example") as looot:
     try:
         run = looot.run_job(
             "people.email.find",
-            {"name": sys.argv[1], "domain": sys.argv[2]},
+            {"first_name": sys.argv[1], "last_name": sys.argv[2], "domain": sys.argv[3]},
             fallback={"maxAttempts": 3, "maxCostUsd": 0.05},
             wait=30,
         )
