@@ -14,12 +14,14 @@ responses, retries on the errors that are safe to retry, and idempotency keys on
 
 ## Install
 
+The package is not on PyPI yet. Install it from GitHub:
+
 ```bash
-pip install looot
+pip install git+https://github.com/loootai/looot-python
 ```
 
-Python 3.10 or newer. One dependency, `httpx`. Until the first PyPI release is out, install
-from GitHub: `pip install git+https://github.com/loootai/looot-python`.
+Python 3.10 or newer. One dependency, `httpx`. After the first PyPI release, `pip install looot`
+will work too.
 
 ## Quickstart
 
